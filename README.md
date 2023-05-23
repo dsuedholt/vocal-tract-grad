@@ -1,4 +1,4 @@
-# Vocal Tract Area Estimation by Gradient Descent
+# Vocal Tract Area Estimation by Gradient Descent
 
 Estimating control parameters for the [Pink Trombone](https://dood.al/pinktrombone/) articulatory synthesizer through auto-differentiation.
 
