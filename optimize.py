@@ -71,8 +71,8 @@ class TractControlsOptimizer(OptimizerBase):
         
         self.params = p
         self.optims = [
-            torch.optim.SGD([p["tongue_idx"].get_raw(), p["tongue_diam"].get_raw()], lr=1e-4, momentum=0.9),
-            torch.optim.SGD([p["constrictions"].get_raw()], lr=1e-4, momentum=0.9)
+            torch.optim.SGD([p["tongue_idx"].get_raw(), p["tongue_diam"].get_raw()], lr=1e-4, momentum=0.8),
+            torch.optim.SGD([p["constrictions"].get_raw()], lr=1e-4, momentum=0.6)
         ]
 
     def get_prediction(self):

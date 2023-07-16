@@ -15,10 +15,10 @@ class VocalTractProxy:
         self.tongue_idx_max = 29
         self.tongue_idx_center = (self.tongue_idx_max + self.tongue_idx_min) / 2
 
-        self.constr_idx_min = 0
+        self.constr_idx_min = 2
         self.constr_idx_max = 43
 
-        self.constr_diam_min = 0.3
+        self.constr_diam_min = 0.1
         self.constr_diam_max = 3
         
         self.blade_start = 10
@@ -155,14 +155,8 @@ class VocalTractProxy:
         if type(constrs) == ControlParameter:
             constrs = constrs.get_denormed()
         
-        shrink = (1 - torch.cos(torch.pi * self.relpos / self.width) * constrs.unsqueeze(dim=0).T)
-        shrink = torch.clamp_max(shrink, torch.ones_like(self.constr_idxs))
-        shrink = (1 - shrink) * self.width_mask
-        shrink = 1 - shrink
-        total_shrink = torch.prod(shrink, dim=0)
-
-        #return torch.cat([curr_diam[:2], curr_diam[2:] * total_shrink + self.constr_diam_min * (1 - total_shrink)])
-        return curr_diam * total_shrink + self.constr_diam_min * (1 - total_shrink)
+        #return torch.cat([curr_diam[:self.constr_idx_min], curr_diam[self.constr_idx_min:] * (1 - constrs) + self.constr_diam_min * constrs])
+        return torch.cat([curr_diam[:self.constr_idx_min], curr_diam[self.constr_idx_min:] * (1 - constrs)])
     
     def apply_single_constriction(self, constr_idx : float, constr_diam, curr_diam):
         
